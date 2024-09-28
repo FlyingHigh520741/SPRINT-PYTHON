@@ -1,28 +1,42 @@
-import time
-from datetime import datetime
+import tkinter as tk
+from datetime import datetime, timedelta
 
-hora_corrida = datetime(2024, 6, 29, 18, 3, 0)  # Definimos a data da próxima corrida (Ano, Mês, Dia, Hora, Minuto e Segundo)
+def contagem_regressiva(hora_corrida):
+    janela = tk.Tk()
+    janela.title("Contagem Regressiva Fórmula E")
 
-def contagem_regressiva(hora_corrida): #Função para calcular e mostrar a contagem regressiva até a próxima corrida.
-    
-    while True:
+    # Rótulo para a mensagem "Próxima corrida em:"
+    rotulo_proxima_corrida = tk.Label(janela, text="Próxima corrida em:")
+    rotulo_proxima_corrida.pack(pady=10)
+
+    # Rótulo para exibir a data da próxima corrida
+    rotulo_data_corrida = tk.Label(janela, text=hora_corrida.strftime("%d/%m/%Y %H:%M:%S"))
+    rotulo_data_corrida.pack()
+
+    # Rótulo para a mensagem "Tempo restante:"
+    rotulo_tempo_restante = tk.Label(janela, text="Tempo restante:")
+    rotulo_tempo_restante.pack(pady=10)
+
+    # Rótulo para exibir o tempo restante (inicialmente vazio)
+    rotulo_tempo = tk.Label(janela, text="")
+    rotulo_tempo.pack()
+
+    def atualizar_tempo():
         agora = datetime.now()
-        tempo_restante = hora_corrida - agora  # Calcula o tempo restante até a corrida
-        
-        if tempo_restante.total_seconds() <= 0:  # Verifica se o tempo restante é menor ou igual a zero, indicando que a corrida começou
-            print("A corrida começou!")
-            break
-        
-        dias = tempo_restante.days
-        horas, segundos = divmod(tempo_restante.seconds, 3600)
-        minutos, segundos = divmod(segundos, 60)
+        tempo_restante = hora_corrida - agora
 
-        mensagem = (f'Próxima corrida em: {hora_corrida.strftime("%d/%m/%Y %H:%M:%S")}' ) # Utilizamos uma váriavel para montar a mensagem com a data da próxima corrida
-        mensagem += (f' | Tempo restante: {dias}d {horas}h {minutos}m {segundos}s')  # Adiciona o tempo restante à mensagem
+        if tempo_restante.total_seconds() <= 0:
+            rotulo_tempo.config(text="A corrida começou!")
+        else:
+            dias = tempo_restante.days
+            horas, segundos = divmod(tempo_restante.seconds, 3600)
+            minutos, segundos = divmod(segundos, 60)
+            rotulo_tempo.config(text=f"{dias}d {horas}h {minutos}m {segundos}s")
+            janela.after(1000, atualizar_tempo)  # Atualiza a cada 1 segundo
 
-        print(mensagem, end='\r', flush=True)  # Imprime a mensagem no terminal, atualizando a linha
-        
-        time.sleep(1)  # Aguarda 1 segundo antes de atualizar novamente
+    atualizar_tempo()
+    janela.mainloop()
 
-contagem_regressiva(hora_corrida)  # Chama a função para iniciar a contagem regressiva no terminal
- 
+# Data da próxima corrida (substitua pela data correta)
+proxima_corrida = datetime(2024, 10, 29, 18, 3, 0)  
+contagem_regressiva(proxima_corrida)
