@@ -1,31 +1,16 @@
-def fazer_pergunta(pergunta, opcoes, resposta_correta): # Utilizamos a função para fazer a pergunta ao usuário e verificar se a resposta está correta
-    # Utilizado para exibir a pergunta e as opções de resposta
+def fazer_pergunta(pergunta, opcoes, resposta_correta, feedback, i):
     print(f"\n{pergunta}")
-    for i, opcao in enumerate(opcoes):
-        print(f"{chr(65+i)}) {opcao}")
+    for j, opcao in enumerate(opcoes):  # Usando 'j' para o índice do loop interno
+        print(f"{chr(65+j)}) {opcao}")
 
-    resposta_usuario = input("Sua resposta: ").strip().upper() # Recebemos a resposta do usuário
+    resposta_usuario = input("Sua resposta: ").strip().upper()
 
-    if resposta_usuario == resposta_correta: # Verifica se a resposta do usuário está correta
-        return True
+    if resposta_usuario == resposta_correta:
+        print(f"Parabéns! Sua resposta está correta.\n\n{feedback[resposta_correta][i]}")
     else:
-        return False
+        print(f"Que pena! A resposta correta é {resposta_correta}.\n\n{feedback[resposta_correta][i]}")
 
-
-def calcular_pontuacao(respostas): # Calcula a pontuação de acordo com as respostas
-    return sum(respostas)
-
-def exibir_resultados(respostas): # Utilizamos para exibir o resultado de cada pergunta (Correta ou Errada)
-    for i, correta in enumerate(respostas):
-        if correta:
-            resultado = "correta"
-        else:
-            resultado = "errada"
-        print(f"Questão {i+1}: {resultado}")
-
-
-def perguntas():
-    # Listas contendo perguntas, opções e respostas corretas
+def iniciar_quiz():
     perguntas = [
         "1- Ano da primeira corrida da Fórmula E?",
         "2- Principal característica dos carros da Fórmula E?",
@@ -54,18 +39,58 @@ def perguntas():
 
     respostas_certas = ['C', 'B', 'A', 'C', 'B', 'A', 'A', 'D', 'A', 'D']
 
-    respostas = [] # Armazena a resposta do usuário
+    feedbacks = {
+        'A': [
+            "A primeira corrida da Fórmula E ocorreu em 2014, em Pequim.",
+            "Os carros da Fórmula E utilizam motores elétricos.",
+            "Alejandro Agag é o fundador da Fórmula E.",
+            "A primeira corrida da Fórmula E foi em Pequim.",
+            "Cada equipe na Fórmula E possui dois carros.",
+            "A principal diferença é o uso de motores elétricos na Fórmula E e motores a combustão na Fórmula 1.",
+            "Uma corrida de Fórmula E dura em média 45 minutos + 1 volta.",
+            "Até 2023, foram completadas 9 temporadas da Fórmula E.",
+            "O sistema de votação dos fãs na Fórmula E é chamado Fanboost.",
+            "O troféu do campeão da Fórmula E é chamado Troféu ABB FIA."
+        ],
+        'B': [
+            "A primeira corrida da Fórmula E ocorreu em 2014, não em 2012.",
+            "Os carros da Fórmula E utilizam motores elétricos, e não a gasolina.",
+            "Alejandro Agag é o fundador da Fórmula E.",
+            "A primeira corrida da Fórmula E foi em Pequim, não em Paris.",
+            "Cada equipe na Fórmula E possui dois carros.",
+            "A principal diferença é o uso de motores elétricos na Fórmula E e motores a combustão na Fórmula 1.",
+            "Uma corrida de Fórmula E dura em média 45 minutos + 1 volta.",
+            "Até 2023, foram completadas 9 temporadas da Fórmula E.",
+            "O sistema de votação dos fãs na Fórmula E é chamado Fanboost.",
+            "O troféu do campeão da Fórmula E é chamado Troféu ABB FIA."
+        ],
+        'C': [
+            "A primeira corrida da Fórmula E ocorreu em 2014, não em 2013.",
+            "Os carros da Fórmula E utilizam motores elétricos, e não híbridos.",
+            "Alejandro Agag é o fundador da Fórmula E.",
+            "A primeira corrida da Fórmula E foi em Pequim.",
+            "Cada equipe na Fórmula E possui dois carros.",
+            "A principal diferença é o uso de motores elétricos na Fórmula E e motores a combustão na Fórmula 1.",
+            "Uma corrida de Fórmula E dura em média 45 minutos + 1 volta.",
+            "Até 2023, foram completadas 9 temporadas da Fórmula E.",
+            "O sistema de votação dos fãs na Fórmula E é chamado Fanboost.",
+            "O troféu do campeão da Fórmula E é chamado Troféu ABB FIA."
+        ],
+        'D': [
+            "A primeira corrida da Fórmula E ocorreu em 2014, não em 2015.",
+            "Os carros da Fórmula E utilizam motores elétricos, e não a diesel.",
+            "Alejandro Agag é o fundador da Fórmula E.",
+            "A primeira corrida da Fórmula E foi em Pequim, não em Londres.",
+            "Cada equipe na Fórmula E possui dois carros.",
+            "A principal diferença é o uso de motores elétricos na Fórmula E e motores a combustão na Fórmula 1.",
+            "Uma corrida de Fórmula E dura em média 45 minutos + 1 volta.",
+            "Até 2023, foram completadas 9 temporadas da Fórmula E.",
+            "O sistema de votação dos fãs na Fórmula E é chamado Fanboost.",
+            "O troféu do campeão da Fórmula E é chamado Troféu ABB FIA."
+        ]
+    }
 
-    # Loop perguntas e coletar as respostas do usuário
     for i in range(len(perguntas)):
-        correta = fazer_pergunta(perguntas[i], opcoes[i], respostas_certas[i])
-        respostas.append(correta)
+        fazer_pergunta(perguntas[i], opcoes[i], respostas_certas[i], feedbacks, i)
 
-    pontuacao = calcular_pontuacao(respostas)  # Usado para calcular a pontuação total
-
-    print(f"\nVocê tem {pontuacao} pontos acumulados.\n")  # Exibir a pontuação final do usuário
-
-    exibir_resultados(respostas) # Exibir os resultados de cada pergunta
-
-
-perguntas() # Chamamos a função para rodar o código no terminal
+iniciar_quiz()
